@@ -1,11 +1,12 @@
 <?php
 
+define('VIEWHELPER_ARTICLE_VIEW_NUM', 'ViewHelper_AddViewNum');
+
 RegisterPlugin('ViewHelper', 'ActivePlugin_ViewHelper');
 
 function ActivePlugin_ViewHelper()
 {
     Add_Filter_Plugin('Filter_Plugin_Edit_Response3', 'ViewHelper_AddArticleEditField');
-    Add_Filter_Plugin('Filter_Plugin_PostArticle_Succeed', 'ViewHelper_SaveArticleAddViewNum');
 
     Add_Filter_Plugin('Filter_Plugin_ViewPost_Template', 'ViewHelper_updatePageViewOnPost');
     Add_Filter_Plugin('Filter_Plugin_ViewList_Template', 'ViewHelper_updatePageViewOnListAndSearch');
@@ -37,42 +38,23 @@ function ViewHelper_updatePageViewOnListAndSearch(&$template)
  */
 function ViewHelper_AddArticleEditField()
 {
-    global $zbp;
     global $article;
 
-    $configKey = 'article_' . $article->ID;
-    $addViewNum = $zbp->config('ViewHelper')->HasKey($configKey) ? $zbp->config('ViewHelper')->$configKey : '';
+    $addViewNum = $article->Metas->HasKey(VIEWHELPER_ARTICLE_VIEW_NUM) ? $article->Metas->GetData(VIEWHELPER_ARTICLE_VIEW_NUM) : '';
 
     echo '<div class="editmod">
-    <label class="editinputname" style="text-overflow:ellipsis;">
+    <label class="editinputname" style="text-overflow:ellipsis;height: 38px">
         实际浏览量
     </label>
-    <input type="text" id="viewHelperArticleRealViewNum" value="' . $article->ViewNums . '" disabled style="width:140px;" />
+    <input type="number" id="viewHelperArticleRealViewNum" value="' . $article->ViewNums . '" disabled style="width:140px;height: 38px;" />
 </div>';
 
     echo '<div class="editmod">
     <label for="viewHelperArticleAddViewNum" class="editinputname" style="text-overflow:ellipsis;">
         增加浏览量
     </label>
-    <input type="text" name="ArticleAddViewNum" id="viewHelperArticleAddViewNum" value="' . $addViewNum . '" style="width:140px;" />
+    <input type="number" name="meta_ViewHelper_AddViewNum" id="viewHelperArticleAddViewNum" value="' . $addViewNum . '" style="width:140px;height: 38px;" />
 </div>';
-}
-
-/**
- * 后台文章编辑页保存
- */
-function ViewHelper_SaveArticleAddViewNum()
-{
-    global $zbp;
-
-    $configKey = 'article_' . GetVars('ID');
-
-    if (GetVars('ArticleAddViewNum') === '') {
-        $zbp->config('ViewHelper')->Delkey($configKey);
-    } else {
-        $zbp->config('ViewHelper')->$configKey = intval(GetVars('ArticleAddViewNum'));
-    }
-    $zbp->SaveConfig('ViewHelper');
 }
 
 /**
@@ -84,15 +66,17 @@ function ViewHelper_AddViewNum($article)
 {
     global $zbp;
 
+    if ($article->Metas->HasKey(VIEWHELPER_ARTICLE_VIEW_NUM)) {
+        return intval($article->Metas->GetData(VIEWHELPER_ARTICLE_VIEW_NUM));
+    }
+
     $keyArr = array(
-        'article_' . $article->ID,
         'category_' . $article->CateID,
         'global'
     );
-
     foreach ($keyArr as $key) {
-        if ($zbp->config('ViewHelper')->hasKey($key)) {
-            return intval($zbp->config('ViewHelper')->$key);
+        if ($zbp->Config('ViewHelper')->HasKey($key)) {
+            return intval($zbp->Config('ViewHelper')->$key);
         }
     }
 

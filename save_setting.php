@@ -19,7 +19,7 @@ if (count($_POST) > 0) {
 }
 
 foreach ($_POST as $key => $value) {
-    if(strpos($key, 'category_') !== false || $key == 'global') {
+    if (strpos($key, 'category_') !== false || $key == 'global') {
         $zbp->Config('ViewHelper')->$key = intval($value);
     }
 }

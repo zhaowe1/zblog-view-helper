@@ -23,7 +23,7 @@ require $blogpath . 'zb_system/admin/admin_header.php';
 require $blogpath . 'zb_system/admin/admin_top.php';
 
 
-$configArr = $zbp->config('ViewHelper');
+$configArr = $zbp->Config('ViewHelper');
 
 ?>
     <div id="divMain">
@@ -69,7 +69,7 @@ $configArr = $zbp->config('ViewHelper');
                                             </p>
                                         </td>
                                         <td>
-                                            <input type="text" class="text-config" name="category_<?php echo $c->ID ?>" value="<?php $field = 'category_' . $c->ID; echo !empty($configArr->$field) ? $configArr->$field : 0 ?>">
+                                            <input type="number" class="text-config" name="category_<?php echo $c->ID ?>" value="<?php $field = 'category_' . $c->ID; echo !empty($configArr->$field) ? $configArr->$field : 0 ?>" style="height: 33px;padding: 5px 10px;">
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -83,7 +83,7 @@ $configArr = $zbp->config('ViewHelper');
                                         <p><b>全局增加</b></p>
                                     </td>
                                     <td>
-                                        <input type="text" class="text-config" name="global" value="<?php echo !empty($configArr->global) ? $configArr->global : 0 ?>">
+                                        <input type="number" class="text-config" name="global" value="<?php echo !empty($configArr->global) ? $configArr->global : 0 ?>" style="height: 33px;padding: 5px 10px;">
                                     </td>
                                 </tr>
                             </table>
@@ -104,7 +104,7 @@ $configArr = $zbp->config('ViewHelper');
                 </div>
                 <hr>
                 <input type="hidden" name="csrfToken" value="<?php echo $zbp->GetCSRFToken();?>">
-                <p><input type="submit" class="button" value="<?php echo $zbp->lang['msg']['submit']; ?>"></p>
+                <p><input type="submit" class="button" value="<?php echo $zbp->lang['msg']['submit'];?>"></p>
             </form>
         </div>
     </div>
