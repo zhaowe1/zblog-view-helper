@@ -43,7 +43,7 @@ function ViewHelper_AddArticleEditField()
     $addViewNum = $article->Metas->HasKey(VIEWHELPER_ARTICLE_VIEW_NUM) ? $article->Metas->GetData(VIEWHELPER_ARTICLE_VIEW_NUM) : '';
 
     echo '<div class="editmod">
-    <label class="editinputname" style="text-overflow:ellipsis;height: 38px">
+    <label class="editinputname" style="text-overflow:ellipsis;">
         实际浏览量
     </label>
     <input type="number" id="viewHelperArticleRealViewNum" value="' . $article->ViewNums . '" disabled style="width:140px;height: 38px;" />
