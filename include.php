@@ -75,7 +75,7 @@ function ViewHelper_AddViewNum($article)
         'global'
     );
     foreach ($keyArr as $key) {
-        if ($zbp->Config('ViewHelper')->HasKey($key)) {
+        if ($zbp->Config('ViewHelper')->HasKey($key) && intval($zbp->Config('ViewHelper')->$key) > 0) {
             return intval($zbp->Config('ViewHelper')->$key);
         }
     }
